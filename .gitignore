@@ -1,0 +1,3 @@
+tests/rpnstring_test
+tests/rpnstring_test.c
+*.o
