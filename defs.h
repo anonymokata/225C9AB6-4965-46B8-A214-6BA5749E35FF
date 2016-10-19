@@ -7,4 +7,8 @@
 
 #define VALID_CHARPOS -1
 
+#define LGBUFFER  1024
+#define SMBUFFER  256
+#define STACKSIZE 64
+
 #endif

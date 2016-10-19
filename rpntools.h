@@ -17,5 +17,6 @@ int isLowerCaseLetter(char letter);
 int isAllowedOperator(char letter);
 int checkMatchingParenthesis(const char *str);
 int checkValidChars(const char *str, validation_t validation_rule);
+int checkSanity(const char *str, validation_t validation_rule);
 
 #endif

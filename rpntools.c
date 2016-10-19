@@ -87,3 +87,24 @@ int checkValidChars(const char *str, validation_t validation_rule)
 
    return errorposition;
 }
+
+/* run checks on input string before we use it */
+int sanity_check(const char *str, validation_t validation_rule)
+{
+   int status = NOK;
+   if (    (checkValidChars(str, validation_rule) == VALID_CHARPOS)
+        && (checkMatchingParenthesis(str) == OK) ) {
+      status = OK;
+   }
+
+   return status;
+}
+
+/* given a string like "(a^b+c*d)" generate RPN notation:
+ * ab^cd*+ 
+ */
+char* RPNtoInfix(const char *str)
+{
+   return 0;
+
+}

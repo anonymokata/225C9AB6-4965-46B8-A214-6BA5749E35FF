@@ -19,13 +19,14 @@ START_TEST(checkMatchingParenthesis_test)
    ck_assert_int_eq(checkMatchingParenthesis("((a+b)"), NOK);
    ck_assert_int_eq(checkMatchingParenthesis("(((a+b)*(c+d))))"), NOK);
    ck_assert_int_eq(checkMatchingParenthesis(")("), NOK);
+   ck_assert_int_eq(checkMatchingParenthesis("))"), NOK);
 
 }
 END_TEST
 
 START_TEST(isLowerCaseLetter_test)
 {
-#line 14
+#line 15
    ck_assert_int_eq(isLowerCaseLetter('A'), NOK);
    ck_assert_int_eq(isLowerCaseLetter('a'), OK);
    ck_assert_int_eq(isLowerCaseLetter('$'), NOK);
@@ -35,7 +36,7 @@ END_TEST
 
 START_TEST(isAllowedOperator_test)
 {
-#line 19
+#line 20
    ck_assert_int_eq(isAllowedOperator('+'), OK);
    ck_assert_int_eq(isAllowedOperator('/'), OK);
    ck_assert_int_eq(isAllowedOperator('-'), OK);
@@ -49,7 +50,7 @@ END_TEST
 
 START_TEST(infix_checkValidChars_test)
 {
-#line 28
+#line 29
    ck_assert_int_eq(checkValidChars("(a+b)", INFIX_RULES), VALID_CHARPOS);
    ck_assert_int_ne(checkValidChars("a+b+3", INFIX_RULES), VALID_CHARPOS);
    ck_assert_int_ne(checkValidChars("$$a+b+3", INFIX_RULES), VALID_CHARPOS);
@@ -64,13 +65,23 @@ END_TEST
 
 START_TEST(rpn_checkValidChars_test)
 {
-#line 38
+#line 39
    ck_assert_int_eq(checkValidChars("ab+", RPN_RULES), VALID_CHARPOS);
    ck_assert_int_eq(checkValidChars("abc*^", RPN_RULES), VALID_CHARPOS);
    ck_assert_int_ne(checkValidChars("(a+b)", RPN_RULES), VALID_CHARPOS);
    ck_assert_int_ne(checkValidChars(" ab++ ", RPN_RULES), VALID_CHARPOS);
    ck_assert_int_ne(checkValidChars("(A+B)", RPN_RULES), VALID_CHARPOS);
    ck_assert_int_ne(checkValidChars("*AB", RPN_RULES), VALID_CHARPOS);
+
+}
+END_TEST
+
+START_TEST(checkSanity_test)
+{
+#line 47
+   ck_assert_int_eq(sanity_check("(a+b)*(a^c)", INFIX_RULES), OK);
+   ck_assert_int_eq(sanity_check(")a-b(", INFIX_RULES), NOK);
+   ck_assert_int_eq(sanity_check("ab+", RPN_RULES), OK);
 }
 END_TEST
 
@@ -87,6 +98,7 @@ int main(void)
     tcase_add_test(tc1_1, isAllowedOperator_test);
     tcase_add_test(tc1_1, infix_checkValidChars_test);
     tcase_add_test(tc1_1, rpn_checkValidChars_test);
+    tcase_add_test(tc1_1, checkSanity_test);
 
     srunner_run_all(sr, CK_ENV);
     nf = srunner_ntests_failed(sr);
