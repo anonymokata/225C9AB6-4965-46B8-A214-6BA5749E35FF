@@ -89,7 +89,7 @@ int checkValidChars(const char *str, validation_t validation_rule)
 }
 
 /* run checks on input string before we use it */
-int sanity_check(const char *str, validation_t validation_rule)
+int checkSanity(const char *str, validation_t validation_rule)
 {
    int status = NOK;
    if (    (checkValidChars(str, validation_rule) == VALID_CHARPOS)
@@ -101,10 +101,11 @@ int sanity_check(const char *str, validation_t validation_rule)
 }
 
 /* given a string like "(a^b+c*d)" generate RPN notation:
- * ab^cd*+ 
+ * ab^cd*+
  */
 char* RPNtoInfix(const char *str)
 {
+   char *stack[STACKSIZE][SMBUFFER];
    return 0;
 
 }

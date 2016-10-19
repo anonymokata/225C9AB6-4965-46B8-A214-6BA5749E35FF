@@ -44,13 +44,12 @@ START_TEST(isAllowedOperator_test)
    ck_assert_int_eq(isAllowedOperator('^'), OK);
    ck_assert_int_eq(isAllowedOperator('@'), NOK);
 
-
 }
 END_TEST
 
 START_TEST(infix_checkValidChars_test)
 {
-#line 29
+#line 28
    ck_assert_int_eq(checkValidChars("(a+b)", INFIX_RULES), VALID_CHARPOS);
    ck_assert_int_ne(checkValidChars("a+b+3", INFIX_RULES), VALID_CHARPOS);
    ck_assert_int_ne(checkValidChars("$$a+b+3", INFIX_RULES), VALID_CHARPOS);
@@ -65,7 +64,7 @@ END_TEST
 
 START_TEST(rpn_checkValidChars_test)
 {
-#line 39
+#line 38
    ck_assert_int_eq(checkValidChars("ab+", RPN_RULES), VALID_CHARPOS);
    ck_assert_int_eq(checkValidChars("abc*^", RPN_RULES), VALID_CHARPOS);
    ck_assert_int_ne(checkValidChars("(a+b)", RPN_RULES), VALID_CHARPOS);
@@ -78,7 +77,7 @@ END_TEST
 
 START_TEST(checkSanity_test)
 {
-#line 47
+#line 46
    ck_assert_int_eq(sanity_check("(a+b)*(a^c)", INFIX_RULES), OK);
    ck_assert_int_eq(sanity_check(")a-b(", INFIX_RULES), NOK);
    ck_assert_int_eq(sanity_check("ab+", RPN_RULES), OK);
