@@ -9,13 +9,33 @@
 #include "../defs.h"
 #include "../util.h"
 
-START_TEST(parenthesis_ok_test)
+START_TEST(checkMatchingParenthesis_test)
 {
 #line 5
-   ck_assert_int_eq(parenthesis_ok("()"), OK);
-   ck_assert_int_eq(parenthesis_ok("(()"), NOK);
-   ck_assert_int_eq(parenthesis_ok("((a+b)*(c+d))"), OK);
-   ck_assert_int_eq(parenthesis_ok("((a+b)*(c+d)))"), NOK);
+   ck_assert_int_eq(checkMatchingParenthesis("()"), OK);
+   ck_assert_int_eq(checkMatchingParenthesis("(()"), NOK);
+   ck_assert_int_eq(checkMatchingParenthesis("((a+b)*(c+d))"), OK);
+   ck_assert_int_eq(checkMatchingParenthesis("((a+b)*(c+d)))"), NOK);
+
+}
+END_TEST
+
+START_TEST(infix_checkValidChars_test)
+{
+#line 11
+   ck_assert_int_eq(checkValidChars("a+b+3", INFIX_RULES), VALID_CHARPOS);
+   ck_assert_int_ne(checkValidChars("$$a+b+3", INFIX_RULES), VALID_CHARPOS);
+   ck_assert_int_eq(checkValidChars("(a+b)", INFIX_RULES), VALID_CHARPOS);
+
+}
+END_TEST
+
+START_TEST(rpn_checkValidChars_test)
+{
+#line 16
+   ck_assert_int_eq(checkValidChars("ab+", RPN_RULES), VALID_CHARPOS);
+   ck_assert_int_ne(checkValidChars("(a+b)", RPN_RULES), VALID_CHARPOS);
+   ck_assert_int_eq(checkValidChars("abc*^", RPN_RULES), VALID_CHARPOS);
 }
 END_TEST
 
@@ -27,7 +47,9 @@ int main(void)
     int nf;
 
     suite_add_tcase(s1, tc1_1);
-    tcase_add_test(tc1_1, parenthesis_ok_test);
+    tcase_add_test(tc1_1, checkMatchingParenthesis_test);
+    tcase_add_test(tc1_1, infix_checkValidChars_test);
+    tcase_add_test(tc1_1, rpn_checkValidChars_test);
 
     srunner_run_all(sr, CK_ENV);
     nf = srunner_ntests_failed(sr);
