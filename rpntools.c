@@ -2,7 +2,7 @@
 
 #include <string.h>
 #include "defs.h"
-#include "util.h"
+#include "rpntools.h"
 
 /* determine if this character is a lower case letter */
 int isLowerCaseLetter(char letter) 

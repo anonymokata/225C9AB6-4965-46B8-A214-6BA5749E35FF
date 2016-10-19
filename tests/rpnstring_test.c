@@ -7,7 +7,7 @@
 
 #line 1 "tests/rpnstring_test.check"
 #include "../defs.h"
-#include "../util.h"
+#include "../rpntools.h"
 
 START_TEST(checkMatchingParenthesis_test)
 {

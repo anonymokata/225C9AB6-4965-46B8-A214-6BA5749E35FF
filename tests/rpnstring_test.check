@@ -1,5 +1,5 @@
 #include "../defs.h"
-#include "../util.h"
+#include "../rpntools.h"
 
 #test checkMatchingParenthesis_test
    ck_assert_int_eq(checkMatchingParenthesis("()"), OK);

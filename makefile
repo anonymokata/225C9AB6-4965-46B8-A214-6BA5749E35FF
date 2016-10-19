@@ -6,7 +6,7 @@ LIBCHECK_CFG=$(shell pkg-config --cflags --libs check)
 #checkmk -- should be included in Ubuntu 'check' package (apt-get install check)
 CHECKMK=checkmk
 #source files
-SOURCES=rpnstring.c util.c
+SOURCES=rpntools.c
 #objects by renaming sources
 OBJECTS=$(SOURCES:.c=.o)
 #test location
@@ -27,8 +27,8 @@ $(TESTLOC)/rpnstring_test.c: $(TESTLOC)/rpnstring_test.check
 	$(CHECKMK) $< > $@
 
 #the test executable requires some different compile rules
-$(TESTLOC)/rpnstring_test: $(TESTLOC)/rpnstring_test.c util.c
-	$(CC) -o $@ $< util.c $(LIBCHECK_CFG) 
+$(TESTLOC)/rpnstring_test: $(TESTLOC)/rpnstring_test.c rpntools.c rpntools.h
+	$(CC) -o $@ $< rpntools.c $(LIBCHECK_CFG) 
 
 clean:
 	rm *.o $(TESTLOC)/rpnstring_test $(TESTLOC)/rpnstring_test.c
