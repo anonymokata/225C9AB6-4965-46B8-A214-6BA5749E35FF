@@ -20,22 +20,48 @@ START_TEST(checkMatchingParenthesis_test)
 }
 END_TEST
 
-START_TEST(infix_checkValidChars_test)
+START_TEST(isLowerCaseLetter_test)
 {
 #line 11
-   ck_assert_int_eq(checkValidChars("a+b+3", INFIX_RULES), VALID_CHARPOS);
-   ck_assert_int_ne(checkValidChars("$$a+b+3", INFIX_RULES), VALID_CHARPOS);
+   ck_assert_int_eq(isLowerCaseLetter('A'), NOK);
+   ck_assert_int_eq(isLowerCaseLetter('a'), OK);
+   ck_assert_int_eq(isLowerCaseLetter('$'), NOK);
+
+}
+END_TEST
+
+START_TEST(isAllowedOperator_test)
+{
+#line 16
+   ck_assert_int_eq(isAllowedOperator('+'), OK);
+   ck_assert_int_eq(isAllowedOperator('/'), OK);
+   ck_assert_int_eq(isAllowedOperator('-'), OK);
+   ck_assert_int_eq(isAllowedOperator('*'), OK);
+   ck_assert_int_eq(isAllowedOperator('^'), OK);
+   ck_assert_int_eq(isAllowedOperator('@'), NOK);
+
+
+}
+END_TEST
+
+START_TEST(infix_checkValidChars_test)
+{
+#line 25
    ck_assert_int_eq(checkValidChars("(a+b)", INFIX_RULES), VALID_CHARPOS);
+   ck_assert_int_ne(checkValidChars("a+b+3", INFIX_RULES), VALID_CHARPOS);
+   ck_assert_int_ne(checkValidChars("$$a+b+3", INFIX_RULES), VALID_CHARPOS);
+   ck_assert_int_ne(checkValidChars("(a+b ) ", INFIX_RULES), VALID_CHARPOS);
 
 }
 END_TEST
 
 START_TEST(rpn_checkValidChars_test)
 {
-#line 16
+#line 31
    ck_assert_int_eq(checkValidChars("ab+", RPN_RULES), VALID_CHARPOS);
-   ck_assert_int_ne(checkValidChars("(a+b)", RPN_RULES), VALID_CHARPOS);
    ck_assert_int_eq(checkValidChars("abc*^", RPN_RULES), VALID_CHARPOS);
+   ck_assert_int_ne(checkValidChars("(a+b)", RPN_RULES), VALID_CHARPOS);
+   ck_assert_int_ne(checkValidChars(" ab++ ", RPN_RULES), VALID_CHARPOS);
 }
 END_TEST
 
@@ -48,6 +74,8 @@ int main(void)
 
     suite_add_tcase(s1, tc1_1);
     tcase_add_test(tc1_1, checkMatchingParenthesis_test);
+    tcase_add_test(tc1_1, isLowerCaseLetter_test);
+    tcase_add_test(tc1_1, isAllowedOperator_test);
     tcase_add_test(tc1_1, infix_checkValidChars_test);
     tcase_add_test(tc1_1, rpn_checkValidChars_test);
 

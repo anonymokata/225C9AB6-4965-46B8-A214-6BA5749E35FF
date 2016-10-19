@@ -23,11 +23,11 @@ test: $(TESTLOC)/rpnstring_test
 	chmod +x $(TESTLOC)/rpnstring_test
 	$(TESTLOC)/rpnstring_test
 
-$(TESTLOC)/rpnstring_test.c: $(TESTLOC)/rpnstring_test.check
+$(TESTLOC)/rpnstring_test.c: $(TESTLOC)/rpnstring_test.check 
 	$(CHECKMK) $< > $@
 
 #the test executable requires some different compile rules
-$(TESTLOC)/rpnstring_test: $(TESTLOC)/rpnstring_test.c
+$(TESTLOC)/rpnstring_test: $(TESTLOC)/rpnstring_test.c util.c
 	$(CC) -o $@ $< util.c $(LIBCHECK_CFG) 
 
 clean:
