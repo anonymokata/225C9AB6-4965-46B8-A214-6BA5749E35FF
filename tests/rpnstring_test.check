@@ -1,0 +1,8 @@
+#include "../defs.h"
+#include "../util.h"
+
+#test parenthesis_ok_test
+   ck_assert_int_eq(parenthesis_ok("()"), OK);
+   ck_assert_int_eq(parenthesis_ok("(()"), NOK);
+   ck_assert_int_eq(parenthesis_ok("((a+b)*(c+d))"), OK);
+   ck_assert_int_eq(parenthesis_ok("((a+b)*(c+d)))"), NOK);
