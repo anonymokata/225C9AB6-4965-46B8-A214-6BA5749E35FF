@@ -8,6 +8,7 @@
    ck_assert_int_eq(checkMatchingParenthesis("((a+b)*(c+d)))"), NOK);
    ck_assert_int_eq(checkMatchingParenthesis("((a+b)"), NOK);
    ck_assert_int_eq(checkMatchingParenthesis("(((a+b)*(c+d))))"), NOK);
+   ck_assert_int_eq(checkMatchingParenthesis(")("), NOK);
 
 #test isLowerCaseLetter_test
    ck_assert_int_eq(isLowerCaseLetter('A'), NOK);
