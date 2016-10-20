@@ -13,7 +13,7 @@ OBJECTS=$(SOURCES:.c=.o)
 TESTLOC=./tests
 
 
-all: $(OBJECTS) test
+all: $(OBJECTS) debug test
 
 %.o:%.c
 	$(CC) $(CFLAGS) $< -o $@
@@ -23,6 +23,11 @@ test: $(TESTLOC)/rpnstring_test
 	chmod +x $(TESTLOC)/rpnstring_test
 	$(TESTLOC)/rpnstring_test
 
+debug: debug.c $(SOURCES)
+	$(CC) debug.c rpntools.c -o $@
+	chmod +x $@
+
+#generate test.c from check file
 $(TESTLOC)/rpnstring_test.c: $(TESTLOC)/rpnstring_test.check 
 	$(CHECKMK) $< > $@
 
@@ -31,4 +36,4 @@ $(TESTLOC)/rpnstring_test: $(TESTLOC)/rpnstring_test.c rpntools.c rpntools.h
 	$(CC) -o $@ $< rpntools.c $(LIBCHECK_CFG) 
 
 clean:
-	rm *.o $(TESTLOC)/rpnstring_test $(TESTLOC)/rpnstring_test.c
+	rm *.o $(TESTLOC)/rpnstring_test $(TESTLOC)/rpnstring_test.c debug

@@ -11,4 +11,12 @@
 #define SMBUFFER  256
 #define STACKSIZE 64
 
+/* macros for push/pop strings onto 'stack' */
+#define pushchar(chr) sprintf(stack[pos++], "%c", chr)
+#define pushstr(str) sprintf(stack[pos++], "%s", str) 
+#define popstr(dest) sprintf(dest, "%s", stack[--pos])
+
+#define push(sp, n) (*((sp)++) = (n))
+#define pop(sp) (*--(sp))
+
 #endif

@@ -1,5 +1,6 @@
 /* utility functions */
 
+#include <stdio.h>
 #include <string.h>
 #include "defs.h"
 #include "rpntools.h"
@@ -103,9 +104,38 @@ int checkSanity(const char *str, validation_t validation_rule)
 /* given a string like "(a^b+c*d)" generate RPN notation:
  * ab^cd*+
  */
-char* RPNtoInfix(const char *str)
+const char* RPNtoInfix(const char *str)
 {
-   char *stack[STACKSIZE][SMBUFFER];
-   return 0;
+   int i, pos;
+   char op, letter;
+   char last[SMBUFFER];
+   char first[SMBUFFER];
+   char stack[STACKSIZE][SMBUFFER];
+   static char result[SMBUFFER];
 
+   pos = 0;
+
+   if (checkSanity(str, RPN_RULES) != OK) {
+      return result;  /* TODO report error */
+   }
+
+   /* look through every letter */
+   for (i=0; i<strlen(str); i++) {
+      letter = str[i];
+      if (isLowerCaseLetter(letter)) {
+         pushchar(letter); /* insert letters into stack */
+      }
+      else if (isAllowedOperator(letter)) {
+         op = letter;
+         popstr(last);
+         popstr(first); 
+         /* re-arrange the values into infix notation, wrap with parenthesis, and put into stack again */
+         sprintf(stack[pos++], "(%s%c%s)", first, op, last);
+      }
+   }
+
+   /* strip the outer-most parenthesis */
+   strncpy(result, &stack[pos-1][1], strlen(stack[pos-1])-2);
+
+   return result;
 }
