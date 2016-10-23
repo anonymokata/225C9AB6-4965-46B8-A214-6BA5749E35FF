@@ -76,6 +76,9 @@ int checkMatchingParenthesis(const char *str)
    if (count != 0) 
       result = NOK;
 
+   if (result == NOK)
+      setErrorFlag(ERR_PARENTHESIS_UNBALANCED);
+
    return result;
 }
 
@@ -105,6 +108,9 @@ int checkValidChars(const char *str, validation_t validation_rule)
       }
    }
 
+   if (errorposition != VALID_CHARPOS)
+      setErrorFlag(ERR_INVALID_CHARACTER);
+
    return errorposition;
 }
 
@@ -133,6 +139,9 @@ const char* RPNtoInfix(const char *str)
    static char result[SMBUFFER];
 
    pos = 0;
+   resetErrors();
+
+   strcpy(result, "");  /* initialize with empty string */
 
    if (checkSanity(str, RPN_RULES) != OK) {
       return result;  /* TODO report error */
@@ -146,15 +155,23 @@ const char* RPNtoInfix(const char *str)
       }
       else if (isAllowedOperator(letter)) {
          op = letter;
-         popstr(last);
-         popstr(first); 
+         if (pos > 1) {
+            popstr(last);
+            popstr(first);
+         }
+         else {
+            setErrorFlag(ERR_UNBALANCED_OPERATORS);
+         }
+
          /* re-arrange the values into infix notation, wrap with parenthesis, and put into stack again */
          sprintf(stack[pos++], "(%s%c%s)", first, op, last);
       }
    }
 
-   /* strip the outer-most parenthesis */
-   strncpy(result, &stack[pos-1][1], strlen(stack[pos-1])-2);
+   if (!ErrorsSet()) {
+      /* strip the outer-most parenthesis */
+      strncpy(result, &stack[pos-1][1], strlen(stack[pos-1])-2);
+   }
 
    return result;
 }

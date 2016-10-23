@@ -7,6 +7,9 @@
 #define LEFT_PAREN       '('
 #define RIGHT_PAREN      ')'
 
+#define resetErrors()      (ERROR_FLAGS = 0)
+#define ErrorsSet()        (ERROR_FLAGS != 0)
+
 typedef enum {
    INFIX_RULES = 0,
    RPN_RULES,
@@ -15,12 +18,11 @@ typedef enum {
 
 typedef enum {
    ERR_PARENTHESIS_UNBALANCED = 0,
-   ERR_INVALID_OPERATOR,
    ERR_INVALID_CHARACTER,
    ERR_STRING_TOO_LONG,
-   ERR_TOO_MANY_OPERATORS,
    ERR_TOO_MANY_OPERANDS,
-   ERR_CODES_COUNT
+   ERR_UNBALANCED_OPERATORS,
+   ERR_CODES_COUNT  /* this should always be last */
 } errorflags_t;
 
 int isLowerCaseLetter(char letter);
