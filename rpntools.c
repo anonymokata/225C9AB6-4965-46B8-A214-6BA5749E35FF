@@ -5,6 +5,25 @@
 #include "defs.h"
 #include "rpntools.h"
 
+/* global var to store error flags */
+unsigned int ERROR_FLAGS = 0;
+
+/* set a bit representing an error */
+/* a macro for this would be more efficient but not sure if i can use 
+ * the testing framework to test it */
+void setErrorFlag(flagnum) 
+{
+   ERROR_FLAGS |= (1<<flagnum);
+}
+
+/* get a bit representing an error */
+/* a macro for this would be more efficient but not sure if i can use 
+ * the testing framework to test it */
+int getErrorFlag(flagnum) 
+{
+   return (ERROR_FLAGS & (1<<flagnum) ? 1 : 0);
+}
+
 /* determine if this character is a lower case letter */
 int isLowerCaseLetter(char letter) 
 {

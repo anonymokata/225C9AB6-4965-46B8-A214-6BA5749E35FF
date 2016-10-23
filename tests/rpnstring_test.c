@@ -85,11 +85,27 @@ START_TEST(checkSanity_test)
 }
 END_TEST
 
-START_TEST(RPNtoInfix_test)
+START_TEST(ERROR_FLAGS_test)
 {
 #line 51
+   ck_assert(setErrorFlag(ERR_PARENTHESIS_UNBALANCED));
+   ck_assert_int_eq(getErrorFlag(ERR_PARENTHESIS_UNBALANCED), TRUE);
+   ck_assert_int_eq(getErrorFlag(ERR_INVALID_OPERATOR), FALSE);
+   ck_assert(setErrorFlag(ERR_INVALID_OPERATOR));
+   ck_assert_int_eq(getErrorFlag(ERR_PARENTHESIS_UNBALANCED), TRUE);
+   ck_assert_int_eq(getErrorFlag(ERR_INVALID_OPERATOR), TRUE);
+
+
+}
+END_TEST
+
+START_TEST(RPNtoInfix_test)
+{
+#line 60
    ck_assert_str_eq(RPNtoInfix("ab+"), "a+b");
    ck_assert_str_eq(RPNtoInfix("ag+ba-c+cedf^*+^*"), "(a+g)*(((b-a)+c)^(c+(e*(d^f))))");
+   ck_assert_str_eq(RPNtoInfix("a+b"), "");
+
 }
 END_TEST
 
@@ -107,6 +123,7 @@ int main(void)
     tcase_add_test(tc1_1, infix_checkValidChars_test);
     tcase_add_test(tc1_1, rpn_checkValidChars_test);
     tcase_add_test(tc1_1, checkSanity_test);
+    tcase_add_test(tc1_1, ERROR_FLAGS_test);
     tcase_add_test(tc1_1, RPNtoInfix_test);
 
     srunner_run_all(sr, CK_ENV);

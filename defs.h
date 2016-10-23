@@ -5,6 +5,9 @@
 #define NOK  0
 #define OK   1
 
+#define TRUE 1
+#define FALSE 0
+
 #define VALID_CHARPOS -1
 
 #define LGBUFFER  1024

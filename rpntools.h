@@ -21,7 +21,7 @@ typedef enum {
    ERR_TOO_MANY_OPERATORS,
    ERR_TOO_MANY_OPERANDS,
    ERR_CODES_COUNT
-} errorcodes_t;
+} errorflags_t;
 
 int isLowerCaseLetter(char letter);
 int isAllowedOperator(char letter);
