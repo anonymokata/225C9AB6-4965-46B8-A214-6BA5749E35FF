@@ -13,13 +13,13 @@ OBJECTS=$(SOURCES:.c=.o)
 TESTLOC=./tests
 
 
-all: $(OBJECTS) debug test
+all: $(OBJECTS) debug tests
 
 %.o:%.c
 	$(CC) $(CFLAGS) $< -o $@
 
 #run the executable which contains the tests
-test: $(TESTLOC)/rpnstring_test
+tests: $(TESTLOC)/rpnstring_test
 	chmod +x $(TESTLOC)/rpnstring_test
 	$(TESTLOC)/rpnstring_test
 
