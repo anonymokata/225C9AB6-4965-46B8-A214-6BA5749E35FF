@@ -151,7 +151,12 @@ const char* RPNtoInfix(const char *str)
    for (i=0; i<strlen(str); i++) {
       letter = str[i];
       if (isLowerCaseLetter(letter)) {
-         pushchar(letter); /* insert letters into stack */
+         if (pos < STACKSIZE) {
+            pushchar(letter); /* insert letters into stack */
+         }
+         else {
+            setErrorFlag(ERR_STACK_OVERFLOW);
+         }
       }
       else if (isAllowedOperator(letter)) {
          op = letter;
@@ -160,7 +165,7 @@ const char* RPNtoInfix(const char *str)
             popstr(first);
          }
          else {
-            setErrorFlag(ERR_UNBALANCED_OPERATORS);
+            setErrorFlag(ERR_UNBALANCED_EXPRESSION);
          }
 
          /* re-arrange the values into infix notation, wrap with parenthesis, and put into stack again */
