@@ -4,6 +4,8 @@
 
 int main(void) {
    printf("\n");
-   printf("%s\n", RPNtoInfix("ab+"));
-   printf("%s\n", RPNtoInfix("ab+c*d*"));
+   //printf("%s\n", RPNtoInfix("ab+"));
+   //printf("%s\n", RPNtoInfix("ab+c*d*"));
+   //printf("%s\n", RPNtoInfix("ab+c*d^"));
+   printf("%s\n", RPNtoInfix("a+b"));
 }

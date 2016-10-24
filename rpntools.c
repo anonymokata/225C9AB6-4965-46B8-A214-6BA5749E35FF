@@ -126,9 +126,7 @@ int checkSanity(const char *str, validation_t validation_rule)
    return status;
 }
 
-/* given a string like "(a^b+c*d)" generate RPN notation:
- * ab^cd*+
- */
+/* given a string like "ab+c*d^" generate --> ((a+b)*c)^d */
 const char* RPNtoInfix(const char *str)
 {
    int i, pos;
@@ -167,15 +165,16 @@ const char* RPNtoInfix(const char *str)
          else {
             setErrorFlag(ERR_UNBALANCED_EXPRESSION);
          }
-
          /* re-arrange the values into infix notation, wrap with parenthesis, and put into stack again */
+         /* TODO: protect against string that is too long */
          sprintf(stack[pos++], "(%s%c%s)", first, op, last);
       }
    }
 
+
    if (!ErrorsSet()) {
-      /* strip the outer-most parenthesis */
-      strncpy(result, &stack[pos-1][1], strlen(stack[pos-1])-2);
+      /* the last string on the stack is the result */
+      popstr(result);
    }
 
    return result;

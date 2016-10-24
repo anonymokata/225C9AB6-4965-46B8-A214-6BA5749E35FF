@@ -102,8 +102,9 @@ END_TEST
 START_TEST(RPNtoInfix_test)
 {
 #line 60
-   ck_assert_str_eq(RPNtoInfix("ab+"), "a+b");
-   ck_assert_str_eq(RPNtoInfix("ag+ba-c+cedf^*+^*"), "(a+g)*(((b-a)+c)^(c+(e*(d^f))))");
+   ck_assert_str_eq(RPNtoInfix("ab+"), "(a+b)");
+   ck_assert_str_eq(RPNtoInfix("ag+ba-c+cedf^*+^*"), "((a+g)*(((b-a)+c)^(c+(e*(d^f)))))");
+   ck_assert_str_eq(RPNtoInfix("ab+c*d^"), "(((a+b)*c)^d)");
    ck_assert_str_eq(RPNtoInfix("a+b"), "");
    ck_assert_int_eq(getErrorFlag(ERR_UNBALANCED_EXPRESSION), TRUE);
    ck_assert_str_eq(RPNtoInfix("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa+"), "");
@@ -112,6 +113,9 @@ START_TEST(RPNtoInfix_test)
    ck_assert_int_eq(getErrorFlag(ERR_UNBALANCED_EXPRESSION), TRUE);
    ck_assert_str_eq(RPNtoInfix("a++"), "");
    ck_assert_int_eq(getErrorFlag(ERR_UNBALANCED_EXPRESSION), TRUE);
+   ck_assert_str_eq(RPNtoInfix("++"), "");
+   ck_assert_int_eq(getErrorFlag(ERR_UNBALANCED_EXPRESSION), TRUE);
+  
    
 
 
