@@ -10,7 +10,7 @@ unsigned int ERROR_FLAGS = 0;
 
 /* set a bit representing an error */
 /* a macro for this would be more efficient but not sure if i can use 
- * the testing framework to test it */
+ * the testing framework to test macros? */
 void setErrorFlag(flagnum) 
 {
    ERROR_FLAGS |= (1<<flagnum);
@@ -25,6 +25,7 @@ int getErrorFlag(flagnum)
 }
 
 /* determine if this character is a lower case letter */
+/* TODO: consider replacing with macro */
 int isLowerCaseLetter(char letter) 
 {
    int status = NOK;
@@ -38,6 +39,7 @@ int isLowerCaseLetter(char letter)
 }
 
 /* determine if this character is an allowed operator */
+/* TODO: consider replacing with macro, simplify? */
 int isAllowedOperator(char letter)
 {
    int status = NOK;
@@ -153,7 +155,8 @@ const char* RPNtoInfix(const char *str)
             pushchar(letter); /* insert letters into stack */
          }
          else {
-            setErrorFlag(ERR_STACK_OVERFLOW);
+            setErrorFlag(ERR_STACK_OVERFLOW);  /* set error too large */
+            break;
          }
       }
       else if (isAllowedOperator(letter)) {
@@ -164,13 +167,13 @@ const char* RPNtoInfix(const char *str)
          }
          else {
             setErrorFlag(ERR_UNBALANCED_EXPRESSION);
+            break;
          }
          /* re-arrange the values into infix notation, wrap with parenthesis, and put into stack again */
          /* TODO: protect against string that is too long */
          sprintf(stack[pos++], "(%s%c%s)", first, op, last);
       }
    }
-
 
    if (!ErrorsSet()) {
       /* the last string on the stack is the result */
@@ -179,3 +182,61 @@ const char* RPNtoInfix(const char *str)
 
    return result;
 }
+
+/* getRPN will convert an equation into an RPN expression.  The expression is passed as an array of strings.
+ * For example:
+ * ["a", "+", "b"] will return "ab+"
+ * ["a", "+", "bc*"] will return "abc*+"
+ * ["ab*", "*", "dc*"] will return "ab*dc**" */
+const char* getRPN(char array[STACKSIZE][SMBUFFER], int arraylen)
+{
+   int let, i, j, k, lastop;
+   char op;
+   static char result[SMBUFFER];  /* will hold the final result */
+
+   i=0, j=0, k=0, lastop=0;
+
+   if (arraylen == 0)  /* nothing to do? */
+      return "";
+
+   /* now loop through the entire array (essentially letter by letter, left to right) in order
+    * of operator precedence.  Each operator should have an operand on the left and an operand on the right.
+    * ['', '', 'LEFT', 'OPERATOR', 'RIGHT', '', '']
+    * ['LEFT', '', '', 'OPERATOR', '', '', '', 'RIGHT']  <-- also valid 
+    * When an operator is found, the value to the left and right are taken, and converted to RPN with 
+    * the following method:  [LEFT][RIGHT][OPERATOR], so a+b becomes ab+.
+    * once we have looped through all operators, there should be nothing left to do.  */
+   for (let=0; let<strlen(VALID_OPERATORS); let++) {
+      op = VALID_OPERATORS[let];  /* go through operators in order of precedence */
+      for (i=0; i<arraylen; i++) {
+         /* we found the operator */
+         if (isOneChar(array[i]) && (array[i][0] == op)) {
+            j = i-1;  /* the value behind the operator */
+            k = i+1;  /* the value in front of the operator */
+
+            while (isEmptyStr(array[j])) {
+               j-=1;
+            }
+
+            while (isEmptyStr(array[k])) {
+               k+=1;
+            }
+
+            /* create RPN notation */
+            sprintf(array[i], "%s%s%c", array[j], array[k], op);
+
+            /* delete the strings in j and k as we don't need them now */
+            strcpy(array[j], "");
+            strcpy(array[k], "");
+
+            /* remember this position */
+            lastop = i;
+         }
+      }
+   }
+
+   printf("%s\n", array[lastop]);
+
+   return array[lastop];
+}
+

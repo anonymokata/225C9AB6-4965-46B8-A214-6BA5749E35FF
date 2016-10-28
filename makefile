@@ -1,6 +1,6 @@
 #CC=clang-3.5
 CC=gcc
-CFLAGS=-c -Wall
+CFLAGS=-c -Wall -ggdb
 #Ubuntu -- figure out what flags are needed to run check framework
 LIBCHECK_CFG=$(shell pkg-config --cflags --libs check)
 #checkmk -- should be included in Ubuntu 'check' package (apt-get install check)
@@ -24,7 +24,7 @@ tests: $(TESTLOC)/rpnstring_test
 	$(TESTLOC)/rpnstring_test
 
 debug: debug.c $(SOURCES)
-	$(CC) debug.c rpntools.c -o $@
+	$(CC) -ggdb debug.c rpntools.c -o $@
 	chmod +x $@
 
 #generate test.c from check file
@@ -33,7 +33,7 @@ $(TESTLOC)/rpnstring_test.c: $(TESTLOC)/rpnstring_test.check
 
 #the test executable requires some different compile rules
 $(TESTLOC)/rpnstring_test: $(TESTLOC)/rpnstring_test.c rpntools.c rpntools.h
-	$(CC) -o $@ $< rpntools.c $(LIBCHECK_CFG) 
+	$(CC) -ggdb -o $@ $< rpntools.c $(LIBCHECK_CFG) 
 
 clean:
-	rm *.o $(TESTLOC)/rpnstring_test $(TESTLOC)/rpnstring_test.c debug
+	rm -f *.o $(TESTLOC)/rpnstring_test $(TESTLOC)/rpnstring_test.c debug
