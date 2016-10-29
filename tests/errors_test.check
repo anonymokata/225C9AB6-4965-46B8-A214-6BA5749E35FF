@@ -1,0 +1,10 @@
+#include "../defs.h"
+#include "../errors.h"
+
+#test ERROR_FLAGS_test
+   setError(ERR_PARENTHESIS_UNBALANCED);
+   ck_assert_int_eq(getError(ERR_PARENTHESIS_UNBALANCED), TRUE);
+   ck_assert_int_eq(getError(ERR_INVALID_CHARACTER), FALSE);
+   setError(ERR_INVALID_CHARACTER);
+   ck_assert_int_eq(getError(ERR_PARENTHESIS_UNBALANCED), TRUE);
+   ck_assert_int_eq(getError(ERR_INVALID_CHARACTER), TRUE);
