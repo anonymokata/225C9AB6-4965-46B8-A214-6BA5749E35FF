@@ -11,17 +11,17 @@ unsigned int ERROR_FLAGS = 0;
 /* set a bit representing an error */
 /* a macro for this would be more efficient but not sure if i can use 
  * the testing framework to test macros? */
-void setErrorFlag(flagnum) 
+void setErrorFlag(errorflags_t errorflag) 
 {
-   ERROR_FLAGS |= (1<<flagnum);
+   ERROR_FLAGS |= (1<<errorflag);
 }
 
 /* get a bit representing an error */
 /* a macro for this would be more efficient but not sure if i can use 
  * the testing framework to test it */
-int getErrorFlag(flagnum) 
+int getErrorFlag(errorflags_t errorflag) 
 {
-   return (ERROR_FLAGS & (1<<flagnum) ? 1 : 0);
+   return (ERROR_FLAGS & (1<<errorflag) ? 1 : 0);
 }
 
 /* determine if this character is a lower case letter */
@@ -152,7 +152,7 @@ const char* RPNtoInfix(const char *str)
       letter = str[i];
       if (isLowerCaseLetter(letter)) {
          if (pos < STACKSIZE) {
-            pushchar(letter); /* insert letters into stack */
+            pushchar(letter, stack); /* insert letters into stack */
          }
          else {
             setErrorFlag(ERR_STACK_OVERFLOW);  /* set error too large */
@@ -162,8 +162,8 @@ const char* RPNtoInfix(const char *str)
       else if (isAllowedOperator(letter)) {
          op = letter;
          if (pos > 1) {
-            popstr(last);
-            popstr(first);
+            popstr(last, stack);
+            popstr(first, stack);
          }
          else {
             setErrorFlag(ERR_UNBALANCED_EXPRESSION);
@@ -177,23 +177,24 @@ const char* RPNtoInfix(const char *str)
 
    if (!ErrorsSet()) {
       /* the last string on the stack is the result */
-      popstr(result);
+      popstr(result, stack);
    }
 
    return result;
 }
+
+
 
 /* getRPN will convert an equation into an RPN expression.  The expression is passed as an array of strings.
  * For example:
  * ["a", "+", "b"] will return "ab+"
  * ["a", "+", "bc*"] will return "abc*+"
  * ["ab*", "*", "dc*"] will return "ab*dc**" */
-const char* getRPN(char array[STACKSIZE][SMBUFFER], int arraylen)
+const char* getRPN(char array[][SMBUFFER], int arraylen)
 {
    int let, i, j, k, lastop;
    char op;
-   static char result[SMBUFFER];  /* will hold the final result */
-
+   static char result[SMBUFFER];  /* will hold the final result */ 
    i=0, j=0, k=0, lastop=0;
 
    if (arraylen == 0)  /* nothing to do? */
@@ -225,9 +226,9 @@ const char* getRPN(char array[STACKSIZE][SMBUFFER], int arraylen)
             /* create RPN notation */
             sprintf(array[i], "%s%s%c", array[j], array[k], op);
 
-            /* delete the strings in j and k as we don't need them now */
-            strcpy(array[j], "");
-            strcpy(array[k], "");
+            /* make empty strings in j and k as we don't need them now */
+            array[j][0] = 0;
+            array[k][0] = 0;
 
             /* remember this position */
             lastop = i;
@@ -235,8 +236,11 @@ const char* getRPN(char array[STACKSIZE][SMBUFFER], int arraylen)
       }
    }
 
-   printf("%s\n", array[lastop]);
+   /* copy result into static storage */
+   strcpy(result, array[lastop]);
 
-   return array[lastop];
+   return result;
 }
+
+
 

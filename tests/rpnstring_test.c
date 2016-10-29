@@ -88,10 +88,10 @@ END_TEST
 START_TEST(ERROR_FLAGS_test)
 {
 #line 51
-   ck_assert(setErrorFlag(ERR_PARENTHESIS_UNBALANCED));
+   setErrorFlag(ERR_PARENTHESIS_UNBALANCED);
    ck_assert_int_eq(getErrorFlag(ERR_PARENTHESIS_UNBALANCED), TRUE);
    ck_assert_int_eq(getErrorFlag(ERR_INVALID_CHARACTER), FALSE);
-   ck_assert(setErrorFlag(ERR_INVALID_CHARACTER));
+   setErrorFlag(ERR_INVALID_CHARACTER);
    ck_assert_int_eq(getErrorFlag(ERR_PARENTHESIS_UNBALANCED), TRUE);
    ck_assert_int_eq(getErrorFlag(ERR_INVALID_CHARACTER), TRUE);
 

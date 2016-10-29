@@ -4,18 +4,23 @@
 #include "rpntools.h"
 
 int main(void) {
+   int pos;
    char stack[STACKSIZE][SMBUFFER];
 
    printf("\n");
    //printf("%s\n", RPNtoInfix("ab+"));
    //printf("%s\n", RPNtoInfix("ab+c*d*"));
    //printf("%s\n", RPNtoInfix("ab+c*d^"));
-   printf("%s\n", RPNtoInfix("a+b"));
+   printf("%s\n", RPNtoInfix("ab+"));
 
    printf("\n");
-   strcpy(stack[0], "a");
-   strcpy(stack[1], "+");
-   strcpy(stack[2], "b");
-   strcpy(stack[3], "*");
-   strcpy(stack[4], "c");
+   pushstr("a", stack);
+   pushstr("+", stack);
+   pushstr("b", stack);
+   pushstr("*", stack);
+   pushstr("c", stack);
+   getRPN(stack, pos-1);
+   printf("%s", getRPN(stack, pos));
+
+   return 0;
 }

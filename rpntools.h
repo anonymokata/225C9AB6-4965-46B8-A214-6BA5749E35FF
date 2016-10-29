@@ -31,6 +31,11 @@ int checkMatchingParenthesis(const char *str);
 int checkValidChars(const char *str, validation_t validation_rule);
 int checkSanity(const char *str, validation_t validation_rule);
 const char* RPNtoInfix(const char *str);
+const char* getRPN(char[][SMBUFFER], int);
+void setErrorFlag(errorflags_t errorflag);
+int getErrorFlag(errorflags_t errorflag);
+
+
 
 
 #endif

@@ -1,5 +1,5 @@
-#CC=clang-3.5
-CC=gcc
+CC=clang-3.5
+#CC=gcc
 CFLAGS=-c -Wall -ggdb
 #Ubuntu -- figure out what flags are needed to run check framework
 LIBCHECK_CFG=$(shell pkg-config --cflags --libs check)
