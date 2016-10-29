@@ -6,7 +6,7 @@ LIBCHECK_CFG=$(shell pkg-config --cflags --libs check)
 #checkmk -- should be included in Ubuntu 'check' package (apt-get install check)
 CHECKMK=checkmk
 #source files
-SOURCES=rpntools.c
+SOURCES=rpntools.c utils.c
 #objects by renaming sources
 OBJECTS=$(SOURCES:.c=.o)
 #test location

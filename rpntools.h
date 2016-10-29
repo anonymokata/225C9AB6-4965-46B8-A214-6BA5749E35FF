@@ -1,5 +1,5 @@
-#ifndef util_h_included
-#define util_h_included
+#ifndef rpntools_h_included
+#define rpntools_h_included
 
 #define ALPHA_MIN        'a'
 #define ALPHA_MAX        'z'
