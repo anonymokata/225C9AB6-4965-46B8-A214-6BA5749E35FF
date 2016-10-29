@@ -1,5 +1,6 @@
 #include "../defs.h"
 #include "../utils.h"
+#include "../errors.h"
 
 #test checkMatchingParenthesis_test
    ck_assert_int_eq(checkMatchingParenthesis("()"), OK);
@@ -42,4 +43,25 @@
    ck_assert_int_ne(checkValidChars("(A+B)", RPN_RULES), VALID_CHARPOS);
    ck_assert_int_ne(checkValidChars("*AB", RPN_RULES), VALID_CHARPOS);
 
+#test setStackWithString_test
+   char stack[STACKSIZE][SMBUFFER];
 
+   resetErrors();
+   setStackWithString(stack, 0, "a+b*c");
+   ck_assert_str_eq(stack[0], "a");
+   ck_assert_str_eq(stack[1], "+");
+   ck_assert_str_eq(stack[2], "b");
+   ck_assert_str_eq(stack[3], "*");
+   ck_assert_str_eq(stack[4], "c");
+   ck_assert_str_eq(stack[5], "");
+
+   setStackWithString(stack, 4, "a+b*c");
+   ck_assert_str_eq(stack[4], "a");
+   ck_assert_str_eq(stack[5], "+");
+   ck_assert_str_eq(stack[6], "b");
+   ck_assert_str_eq(stack[7], "*");
+   ck_assert_str_eq(stack[8], "c");
+   ck_assert_str_eq(stack[9], "");
+
+   setStackWithString(stack, STACKSIZE-2, "a+b*c");
+   ck_assert_int_eq(getError(ERR_STRING_TOO_LONG), 1);

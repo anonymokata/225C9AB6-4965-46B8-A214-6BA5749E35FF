@@ -90,5 +90,26 @@ int checkValidChars(const char *str, validation_t validation_rule)
    return errorposition;
 }
 
+/* given a string, insert the string letter by letter into a stack, starting at startpos */
+/* i.e. if the string is "foobar" then the stack will hold:
+ * ["f", "o", "o", "b", "a", "r", \0, .......]
+ * note that each position in the stack is of size SMBUFFER */
+void setStackWithString(char stack[][SMBUFFER], int startpos, char * string)
+{
+   int i;
+   int pos = startpos;  /* pushstr macro requires 'pos' to exist */
+
+   /* if the string is larger than stacksize, or if the string would overflow
+    * the stack given the starpos, set error and return immediately */
+   if ((strlen(string) > STACKSIZE) || ((strlen(string) + startpos) > STACKSIZE)) {
+      setError(ERR_STRING_TOO_LONG);
+      return;
+   }
+
+   for (i=0; i<strlen(string); i++) {
+      pushchar(string[i], stack);
+   }
+}
+
 
 

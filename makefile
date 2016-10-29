@@ -31,13 +31,13 @@ $(TESTLOC)/%.c:$(TESTLOC)/%.check
 	$(CHECKMK) $< > $@
 
 #the test executables require some different compile rules
-$(TESTLOC)/utils_test: $(TESTLOC)/utils_test.c utils.c utils.h
-	$(CC) -ggdb -o $@ $< utils.c $(LIBCHECK_CFG)
+$(TESTLOC)/utils_test: $(TESTLOC)/utils_test.c $(SOURCES)
+	$(CC) -ggdb -o $@ $< utils.c errors.c $(LIBCHECK_CFG)
 
-$(TESTLOC)/rpntools_test: $(TESTLOC)/rpntools_test.c rpntools.c rpntools.h
+$(TESTLOC)/rpntools_test: $(TESTLOC)/rpntools_test.c $(SOURCES)
 	$(CC) -ggdb -o $@ $< rpntools.c utils.c errors.c $(LIBCHECK_CFG) 
 
-$(TESTLOC)/errors_test: $(TESTLOC)/errors_test.c errors.c errors.h
+$(TESTLOC)/errors_test: $(TESTLOC)/errors_test.c $(SOURCES)
 	$(CC) -ggdb -o $@ $< errors.c $(LIBCHECK_CFG) 
 
 #run the executable which contains the tests
