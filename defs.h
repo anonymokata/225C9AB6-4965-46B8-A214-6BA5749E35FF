@@ -2,6 +2,8 @@
 #define defs_h_included
 /* general/global definitions */
 
+
+
 #define NOK  0
 #define OK   1
 
