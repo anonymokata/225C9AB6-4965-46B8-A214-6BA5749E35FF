@@ -1,3 +1,5 @@
+#include <string.h>
+#include <stdio.h>
 #include "../defs.h"
 #include "../rpntools.h"
 #include "../errors.h"
@@ -53,4 +55,15 @@
 
 
 #test getRPN_test
+   int pos=0;
+   char stack[STACKSIZE][SMBUFFER];
+
+   pushstr("a", stack);
+   pushstr("+", stack);
+   pushstr("b", stack);
+   pushstr("*", stack);
+   pushstr("c", stack);
+
+   ck_assert_str_eq(getRPN(stack, 5), "abc*+");  
+
 

@@ -5,7 +5,7 @@
 #include "errors.h"
 
 int main(void) {
-   int pos;
+   int pos=0;
    char stack[STACKSIZE][SMBUFFER];
 
    printf("\n");

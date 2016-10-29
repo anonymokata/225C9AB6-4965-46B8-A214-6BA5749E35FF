@@ -7,6 +7,19 @@
 #define LEFT_PAREN       '('
 #define RIGHT_PAREN      ')'
 
+#define VALID_CHARPOS -1
+
+#define pushchar(chr, stack)    sprintf(stack[pos++], "%c", chr)
+#define pushstr(str, stack)     sprintf(stack[pos++], "%s", str) 
+#define popstr(dest, stack)     sprintf(dest, "%s", stack[--pos])
+
+/* macro to determine if string is a single letter */
+#define isOneChar(string)       (strlen(string)==1)
+#define isEmptyStr(string)      (strlen(string)==0)
+
+#define push(sp, n) (*((sp)++) = (n))
+#define pop(sp) (*--(sp))
+
 typedef enum {
    INFIX_RULES = 0,
    RPN_RULES,
