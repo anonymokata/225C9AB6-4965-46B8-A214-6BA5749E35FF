@@ -90,19 +90,5 @@ int checkValidChars(const char *str, validation_t validation_rule)
    return errorposition;
 }
 
-/* run checks on input string before we use it */
-int checkSanity(const char *str, validation_t validation_rule)
-{
-   int errorflags = 0;
-   
-   if ((errorflags == OK) && (checkValidChars(str, validation_rule) != VALID_CHARPOS)) {
-      errorflags |= ERR_INVALID_CHARACTER;
-   }
 
-   if ((errorflags == OK) && (checkMatchingParenthesis(str) != OK)) {
-      errorflags |= ERR_PARENTHESIS_UNBALANCED;
-   }
-
-   return errorflags;
-}
 

@@ -42,7 +42,4 @@
    ck_assert_int_ne(checkValidChars("(A+B)", RPN_RULES), VALID_CHARPOS);
    ck_assert_int_ne(checkValidChars("*AB", RPN_RULES), VALID_CHARPOS);
 
-#test checkSanity_test
-   ck_assert_int_eq(checkSanity("(a+b)*(a^c)", INFIX_RULES), OK);
-   ck_assert_int_eq(checkSanity(")a-b(", INFIX_RULES), NOK);
-   ck_assert_int_eq(checkSanity("ab+", RPN_RULES), OK);
+
