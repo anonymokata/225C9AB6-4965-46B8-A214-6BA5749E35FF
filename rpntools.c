@@ -8,19 +8,18 @@
 #include "errors.h"
 
 /* run checks on input string before we use it */
-int checkSanity(const char *str, validation_t validation_rule)
+void checkSanity(const char *str, validation_t validation_rule)
 {
-   int errorflags = 0;
-   
-   if ((errorflags == OK) && (checkValidChars(str, validation_rule) != VALID_CHARPOS)) {
-      errorflags |= ERR_INVALID_CHARACTER;
+   if (checkValidChars(str, validation_rule) != VALID_CHARPOS) {
+      setError(ERR_INVALID_CHARACTER);
    }
 
-   if ((errorflags == OK) && (checkMatchingParenthesis(str) != OK)) {
-      errorflags |= ERR_PARENTHESIS_UNBALANCED;
+   /* only for infix, check parenthesis matching */
+   if (validation_rule == INFIX_RULES) {
+      if (checkMatchingParenthesis(str) != OK) {
+         setError(ERR_PARENTHESIS_UNBALANCED);
+      }
    }
-
-   return errorflags;
 }
 
 /* given a string like "ab+c*d^" generate --> ((a+b)*c)^d */
@@ -32,16 +31,16 @@ const char* RPNtoInfix(const char *str)
    char first[SMBUFFER];
    char stack[STACKSIZE][SMBUFFER];
    static char result[SMBUFFER];
-
    pos = 0;
+
    resetErrors();  /* reset errors at start of run */
 
-   strcpy(result, "");  /* initialize with empty string */
+   strcpy(result, "");  /* initialize result with empty string */
 
    checkSanity(str, RPN_RULES);  /* check sanity of input string */
 
    if (getErrors()) {
-      return result;  /* TODO report error */
+      return "";  /* return empty string on error */
    }
 
    /* look through every letter */
