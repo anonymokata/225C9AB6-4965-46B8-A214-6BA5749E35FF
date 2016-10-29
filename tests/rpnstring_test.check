@@ -71,6 +71,4 @@
    ck_assert_int_eq(getErrorFlag(ERR_UNBALANCED_EXPRESSION), TRUE);
 
 #test getRPN_test
-   
-
 

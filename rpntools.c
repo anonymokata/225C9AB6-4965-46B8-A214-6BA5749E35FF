@@ -78,9 +78,6 @@ int checkMatchingParenthesis(const char *str)
    if (count != 0) 
       result = NOK;
 
-   if (result == NOK)
-      setErrorFlag(ERR_PARENTHESIS_UNBALANCED);
-
    return result;
 }
 
@@ -110,19 +107,22 @@ int checkValidChars(const char *str, validation_t validation_rule)
       }
    }
 
-   if (errorposition != VALID_CHARPOS)
-      setErrorFlag(ERR_INVALID_CHARACTER);
-
    return errorposition;
 }
 
 /* run checks on input string before we use it */
 int checkSanity(const char *str, validation_t validation_rule)
 {
-   int status = NOK;
-   if (    (checkValidChars(str, validation_rule) == VALID_CHARPOS)
-        && (checkMatchingParenthesis(str) == OK) ) {
-      status = OK;
+   int status = OK;
+   
+   if ((status == OK) && (checkValidChars(str, validation_rule) != VALID_CHARPOS)) {
+      setErrorFlag(ERR_INVALID_CHARACTER);
+      status = NOK;
+   }
+
+   if ((status == OK) && (checkMatchingParenthesis(str) != OK)) {
+      setErrorFlag(ERR_PARENTHESIS_UNBALANCED);
+      status = NOK;
    }
 
    return status;

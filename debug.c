@@ -19,8 +19,8 @@ int main(void) {
    pushstr("b", stack);
    pushstr("*", stack);
    pushstr("c", stack);
-   getRPN(stack, pos-1);
-   printf("%s", getRPN(stack, pos));
+   printf("getRPN:\n");
 
+   printf("%s", getRPN(stack, pos));
    return 0;
 }

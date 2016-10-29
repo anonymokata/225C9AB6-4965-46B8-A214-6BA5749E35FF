@@ -121,8 +121,6 @@ END_TEST
 START_TEST(getRPN_test)
 {
 #line 74
-   
-
 
 }
 END_TEST
