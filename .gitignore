@@ -1,3 +1,5 @@
-tests/rpnstring_test
-tests/rpnstring_test.c
+tests/*_test
+tests/*.c
 *.o
+*.swp
+a.out
