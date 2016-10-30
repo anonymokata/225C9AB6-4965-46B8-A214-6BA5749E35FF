@@ -1,7 +1,28 @@
 API description
-   
+   From rpntools.h:
+      * const char* RPNtoInfix(const char *str);
+      Pass an equation in RPN notation, the return will contain an equivalent equation in Infix notation.  An empty string is returned on error.  
+      Use the functions in errors.h to interpret errors.
+      
+      * const char* InfixtoRPN(const char *string);
+      Pass an equation in Infix notation, the return will contain an equivalen equation in RPN notation.  An epmpty string is returned on error.
+      Use the functions in errors.h to interpret errors.
 
-How to build
+   From errors.h:
+      * errorflags_t
+      The possible error flags that can be stored
+
+      * int getErrors(void);
+      Return an int which will contain all error flags stored
+
+      * int getError(errorflags_t errorflag);
+      Determine if one particular error was stored
+
+How to build:
+   * libcheck must be installed an functioning
+   * clone git repository
+   * from the project root, just type make, which will build the project and run the tests
+   * make clean will clean the project
 
 Assumptions
    * Operators will only consist of the following:  ^/*-+
@@ -123,6 +144,8 @@ Strategy used to solve the problem
    ["", "abcf^*+", "", "", "", "", ""]
 
    So we have a method for handling infix to RPN *without* parenthesis.
+
+   5. Adding parenthesis added another challenge.  
 
 
 
