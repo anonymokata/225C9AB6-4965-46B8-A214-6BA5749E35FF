@@ -25,5 +25,7 @@ int main(void) {
    pushstr("*", stack);
    pushstr("c", stack);
    printf("getRPN: %s\n", getRPN(stack, pos));
+
+   InfixtoRPN("(a+b)*(c+d)");
    return 0;
 }

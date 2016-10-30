@@ -34,9 +34,7 @@ const char* RPNtoInfix(const char *str)
    pos = 0;
 
    resetErrors();  /* reset errors at start of run */
-
    strcpy(result, "");  /* initialize result with empty string */
-
    checkSanity(str, RPN_RULES);  /* check sanity of input string */
 
    if (getErrors()) {
@@ -137,6 +135,76 @@ const char* getRPN(char array[][SMBUFFER], int arraylen)
 
    return result;
 }
+
+
+/* given an infix string, "(a+b)*(c^d)", this function should parse it appropriately
+ * and return RPN notation, i.e. (ab+cd^*)  */
+const char* InfixtoRPN(char *string)
+{
+   int pos=0;
+   int left=-1;
+   int right=-1;
+   int i;
+   char stack[STACKSIZE][SMBUFFER];
+   char equation[SMBUFFER];
+   static char result[SMBUFFER];
+
+   resetErrors();  /* reset errors at start of run */
+   strcpy(result, "");  /* initialize result with empty string */
+   checkSanity(string, INFIX_RULES);  /* check sanity of input string */
+
+   if (getErrors()) {
+      return "";  /* return empty string on error */
+   }
+
+   setStackWithString(stack, 0, string);
+
+   while (1) {
+      printf("pos: %d\n", pos);
+
+      if (strcmp(stack[pos], "(")) {
+         left = pos;
+      }
+      if (strcmp(stack[pos], ")")) {
+         right = pos;
+      }
+
+      printf("left/right: %d/%d\n", left, right);
+
+      /* found two parenthesis */
+      if ((left != -1) && (right != -1)) {
+         printf("stack[left+1]: %s\n", stack[left+1]);
+         printf("stack[right]: %s\n", stack[right]);
+         strcpy(equation, getRPN(&stack[left+1], right-left));
+         printf("equation: %s\n", equation);
+         if (strlen(equation) == 0) {
+            printf("equation is null");
+            break;
+         }
+
+         for (i=left; i<right+1; i++) {
+            strcpy(stack[i], "");
+         }
+         strcpy(stack[left], equation);
+         pos = 0;
+         left = -1;
+         right = -1;
+         continue;
+      }
+
+      if (pos < strlen(string)-1) {
+         pos += 1;
+      }
+      else {
+         getRPN(stack, pos);
+         printf("done\n");
+         break;
+      }
+   }
+
+   return "";
+}
+
 
 
 

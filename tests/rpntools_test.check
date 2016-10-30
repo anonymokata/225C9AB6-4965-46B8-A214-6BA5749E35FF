@@ -65,3 +65,7 @@
    ck_assert_str_eq(getRPN(stack, 13), "abc*d*ef^*+b+");  
 
 
+#test InfixtoRPN_test
+   ck_assert_str_eq(InfixtoRPN("(a+b)*(c+d)"), "ab+cd+*");
+
+
