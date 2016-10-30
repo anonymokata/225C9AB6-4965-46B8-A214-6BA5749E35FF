@@ -113,7 +113,7 @@ Strategy used to solve the problem
    Therefore, which given an expression like above, "a+b*c^f", I decided to scan the entire string
    looking for operators in order of precedence, and grouping operations accordingly.
 
-   If we convert the string into a string array, where each item on the stack is a string.  We then
+   If we convert the string into a string array, where each item in the array is a string.  We then
    start with this:
    ["a", "+", "b", "*", "c", "^", "f"]
 
@@ -145,10 +145,16 @@ Strategy used to solve the problem
 
    So we have a method for handling infix to RPN *without* parenthesis.
 
-   5. Adding parenthesis added another challenge.  
+   5. Adding parenthesis added another challenge.  Here again I decided to use a 'stack'.  
+   
+   The first step is to take the input string, and enter it into a string array where each
+   letter is an indivdual entry.
 
+   Next, We scan the array from left to right looking for left and right parenthesis,
+   rembering the position of the parenthesis.  When both left and right parenthesis are found,
+   the array between them is an infix notation that can be sent to getRPN as above.
 
-
-
-
+   The result from getRPN is entered back into the array, and the values between parenthesis,
+   including the parenthesis themselves, are cleared.  We repeat this process until the entire 
+   string has been processed.
 

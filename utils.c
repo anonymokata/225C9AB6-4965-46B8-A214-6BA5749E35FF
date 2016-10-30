@@ -4,7 +4,6 @@
 #include "utils.h"
 
 /* determine if this character is a lower case letter */
-/* TODO: consider replacing with macro */
 int isLowerCaseLetter(char letter) 
 {
    int status = NOK;
@@ -18,7 +17,6 @@ int isLowerCaseLetter(char letter)
 }
 
 /* determine if this character is an allowed operator */
-/* TODO: consider replacing with macro, simplify? */
 int isAllowedOperator(char letter)
 {
    int status = NOK;

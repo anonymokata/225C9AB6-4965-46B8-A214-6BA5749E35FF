@@ -77,7 +77,6 @@ const char* RPNtoInfix(const char *string)
             break;
          }
          /* re-arrange the values into infix notation, wrap with parenthesis, and put into stack again */
-         /* TODO: protect against string that is too long */
          sprintf(stack[pos++], "(%s%c%s)", first, op, last);
       }
    }
