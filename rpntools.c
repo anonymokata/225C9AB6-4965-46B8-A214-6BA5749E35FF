@@ -7,6 +7,9 @@
 #include "rpntools.h"
 #include "errors.h"
 
+#define MATCH 0
+#define dumpstack()     for (i=0; i<strlen(string); i++) { printf("stack[%d]: %s\n", i, stack[i]); }
+
 /* run checks on input string before we use it */
 void checkSanity(const char *str, validation_t validation_rule)
 {
@@ -159,13 +162,15 @@ const char* InfixtoRPN(char *string)
 
    setStackWithString(stack, 0, string);
 
+   dumpstack();
+
    while (1) {
       printf("pos: %d\n", pos);
 
-      if (strcmp(stack[pos], "(")) {
+      if (strcmp(stack[pos], "(")==MATCH) {
          left = pos;
       }
-      if (strcmp(stack[pos], ")")) {
+      if (strcmp(stack[pos], ")")==MATCH) {
          right = pos;
       }
 
@@ -202,7 +207,9 @@ const char* InfixtoRPN(char *string)
       }
    }
 
-   return "";
+   dumpstack();
+
+   return getRPN(stack, strlen(string));
 }
 
 
