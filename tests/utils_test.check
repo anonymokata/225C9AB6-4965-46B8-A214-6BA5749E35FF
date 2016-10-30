@@ -62,6 +62,3 @@
    ck_assert_str_eq(stack[7], "*");
    ck_assert_str_eq(stack[8], "c");
    ck_assert_str_eq(stack[9], "");
-
-   setStackWithString(stack, STACKSIZE-2, "a+b*c");
-   ck_assert_int_eq(getError(ERR_STRING_TOO_LONG), 1);

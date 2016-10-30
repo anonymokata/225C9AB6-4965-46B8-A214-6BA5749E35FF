@@ -35,9 +35,8 @@
    ck_assert_str_eq(RPNtoInfix("a+b"), "");
    ck_assert_int_eq(getError(ERR_UNBALANCED_EXPRESSION), TRUE);
 
-   ck_assert_str_eq(RPNtoInfix("a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a"), "");
-   ck_assert_int_eq(getErrors(), 1);
-   ck_assert_int_eq(getError(ERR_STACK_OVERFLOW), TRUE);
+   ck_assert_str_eq(RPNtoInfix("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa+++++++++++++++++++++++++++++++++++++++++++++++++"), "");
+   ck_assert_int_eq(getError(ERR_STRING_TOO_LONG), TRUE);
 
    ck_assert_str_eq(RPNtoInfix("+ab"), "");
    ck_assert_int_eq(getError(ERR_UNBALANCED_EXPRESSION), TRUE);
@@ -68,6 +67,8 @@
 
 #test InfixtoRPN_test
    ck_assert_str_eq(InfixtoRPN("(a+b)*(c+d)"), "ab+cd+*");
+   ck_assert_str_eq(InfixtoRPN("a+b*c^f"), "abcf^*+");
+
    ck_assert_str_eq(InfixtoRPN("((a+(b*c*d(c-d))))"), "");
    ck_assert_int_eq(getError(ERR_UNBALANCED_EXPRESSION), TRUE);
 

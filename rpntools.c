@@ -30,7 +30,7 @@ void checkSanity(const char *str, validation_t validation_rule)
 }
 
 /* given a string like "ab+c*d^" generate --> ((a+b)*c)^d */
-const char* RPNtoInfix(const char *str)
+const char* RPNtoInfix(const char *string)
 {
    int i, pos;
    char op, letter;
@@ -42,15 +42,21 @@ const char* RPNtoInfix(const char *str)
 
    resetErrors();  /* reset errors at start of run */
    strcpy(result, "");  /* initialize result with empty string */
-   checkSanity(str, RPN_RULES);  /* check sanity of input string */
+   checkSanity(string, RPN_RULES);  /* check sanity of input string */
+
+   /* if the string is larger than stacksize, or if the string would overflow
+    * the stack given the starpos, set error and return immediately */
+   if (strlen(string) > STACKSIZE) {
+      setError(ERR_STRING_TOO_LONG);
+   }
 
    if (getErrors()) {
       return "";  /* return empty string on error */
    }
 
    /* look through every letter */
-   for (i=0; i<strlen(str); i++) {
-      letter = str[i];
+   for (i=0; i<strlen(string); i++) {
+      letter = string[i];
       if (isLowerCaseLetter(letter)) {
          if (pos < STACKSIZE) {
             pushchar(letter, stack); /* insert letters into stack */
@@ -93,10 +99,10 @@ const char* RPNtoInfix(const char *str)
  * ["ab*", "*", "dc*"] will return "ab*dc**" */
 const char* getRPN(char array[][SMBUFFER], int arraylen)
 {
-   int let, i, j, k, lastop;
+   int let, i, left, right, lastop;
    char op;
    static char result[SMBUFFER];  /* will hold the final result */ 
-   i=0, j=0, k=0, lastop=0;
+   i=0, left=0, right=0, lastop=0;
 
    if (arraylen == 0)  /* nothing to do? */
       return "";
@@ -113,23 +119,23 @@ const char* getRPN(char array[][SMBUFFER], int arraylen)
       for (i=0; i<arraylen; i++) {
          /* we found the operator */
          if (isOneChar(array[i]) && (array[i][0] == op)) {
-            j = i-1;  /* the value behind the operator */
-            k = i+1;  /* the value in front of the operator */
+            left = i-1;  /* the value behind the operator */
+            right = i+1;  /* the value in front of the operator */
 
-            while (isEmptyStr(array[j])) {
-               j-=1;
+            while (isEmptyStr(array[left])) {
+               left-=1;
             }
 
-            while (isEmptyStr(array[k])) {
-               k+=1;
+            while (isEmptyStr(array[right])) {
+               right+=1;
             }
 
             /* create RPN notation */
-            sprintf(array[i], "%s%s%c", array[j], array[k], op);
+            sprintf(array[i], "%s%s%c", array[left], array[right], op);
 
-            /* make empty strings in j and k as we don't need them now */
-            array[j][0] = 0;
-            array[k][0] = 0;
+            /* make empty strings in left and right as we don't need them now */
+            array[left][0] = 0;
+            array[right][0] = 0;
 
             /* remember this position */
             lastop = i;
@@ -146,7 +152,7 @@ const char* getRPN(char array[][SMBUFFER], int arraylen)
 
 /* given an infix string, "(a+b)*(c^d)", this function should parse it appropriately
  * and return RPN notation, i.e. (ab+cd^*)  */
-const char* InfixtoRPN(char *string)
+const char* InfixtoRPN(const char *string)
 {
    int pos=0;
    int left=-1;
@@ -156,17 +162,24 @@ const char* InfixtoRPN(char *string)
    char equation[SMBUFFER];
    static char result[SMBUFFER];
 
-   resetErrors();  /* reset errors at start of run */
-   strcpy(result, "");  /* initialize result with empty string */
+   resetErrors();                     /* reset errors at start of run */
+   strcpy(result, "");                /* initialize result with empty string */
    checkSanity(string, INFIX_RULES);  /* check sanity of input string */
 
+   /* if the string is larger than stacksize, or if the string would overflow
+    * the stack given the starpos, set error and return immediately */
+   if (strlen(string) > STACKSIZE) {
+      setError(ERR_STRING_TOO_LONG);
+   }
+
+   /* if there are any errors, we are done right now */
    if (getErrors()) {
       return "";  /* return empty string on error */
    }
 
    setStackWithString(stack, 0, string);
 
-   //dumpstack();
+   //dumpstack();  /* for debugging */
 
    while (1) {
       if (strcmp(stack[pos], "(")==MATCH) {

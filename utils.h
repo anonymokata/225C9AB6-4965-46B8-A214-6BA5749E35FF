@@ -27,7 +27,7 @@ int isLowerCaseLetter(char letter);
 int isAllowedOperator(char letter);
 int checkMatchingParenthesis(const char *str);
 int checkValidChars(const char *str, validation_t validation_rule);
-void setStackWithString(char stack[][SMBUFFER], int startpos, char * string);
+void setStackWithString(char stack[][SMBUFFER], int startpos, const char * string);
 int checkOperatorBalance(const char *str);
 
 #endif /* utils_h_included */
