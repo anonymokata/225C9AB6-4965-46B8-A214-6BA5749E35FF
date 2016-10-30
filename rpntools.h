@@ -6,5 +6,6 @@
 void checkSanity(const char *str, validation_t validation_rule);
 const char* RPNtoInfix(const char *str);
 const char* getRPN(char[][SMBUFFER], int);
+const char* InfixtoRPN(char *string);
 
 #endif

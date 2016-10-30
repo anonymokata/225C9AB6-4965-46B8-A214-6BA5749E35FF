@@ -67,5 +67,9 @@
 
 #test InfixtoRPN_test
    ck_assert_str_eq(InfixtoRPN("(a+b)*(c+d)"), "ab+cd+*");
+   ck_assert_str_eq(InfixtoRPN("((a+(b*c*d(c-d))))"), "");
+   ck_assert_int_eq(getError(ERR_UNBALANCED_EXPRESSION), TRUE);
+
+
 
 

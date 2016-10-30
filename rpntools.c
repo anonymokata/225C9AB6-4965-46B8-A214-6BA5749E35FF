@@ -162,11 +162,9 @@ const char* InfixtoRPN(char *string)
 
    setStackWithString(stack, 0, string);
 
-   dumpstack();
+   //dumpstack();
 
    while (1) {
-      printf("pos: %d\n", pos);
-
       if (strcmp(stack[pos], "(")==MATCH) {
          left = pos;
       }
@@ -174,16 +172,10 @@ const char* InfixtoRPN(char *string)
          right = pos;
       }
 
-      printf("left/right: %d/%d\n", left, right);
-
       /* found two parenthesis */
       if ((left != -1) && (right != -1)) {
-         printf("stack[left+1]: %s\n", stack[left+1]);
-         printf("stack[right]: %s\n", stack[right]);
          strcpy(equation, getRPN(&stack[left+1], right-left));
-         printf("equation: %s\n", equation);
          if (strlen(equation) == 0) {
-            printf("equation is null");
             break;
          }
 
@@ -202,14 +194,20 @@ const char* InfixtoRPN(char *string)
       }
       else {
          getRPN(stack, pos);
-         printf("done\n");
          break;
       }
    }
 
-   dumpstack();
+   /* we are done, somewhere in the stack is our string */
+   for (i=0; i<strlen(string); i++) {
+      if (strlen(stack[i]) > 0)
+         break;
+   }
 
-   return getRPN(stack, strlen(string));
+   /* copy to static mem */
+   strcpy(result, stack[i]);
+
+   return result;
 }
 
 
