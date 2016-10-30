@@ -17,6 +17,10 @@ void checkSanity(const char *str, validation_t validation_rule)
       setError(ERR_INVALID_CHARACTER);
    }
 
+   if (checkOperatorBalance(str) == NOK) {
+      setError(ERR_UNBALANCED_EXPRESSION);
+   }
+
    /* only for infix, check parenthesis matching */
    if (validation_rule == INFIX_RULES) {
       if (checkMatchingParenthesis(str) != OK) {

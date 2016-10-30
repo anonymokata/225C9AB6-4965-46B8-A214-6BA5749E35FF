@@ -61,6 +61,32 @@ int checkMatchingParenthesis(const char *str)
    return result;
 }
 
+int checkOperatorBalance(const char *str)
+{
+   int i, operators, operands;
+   int status = NOK;
+
+   operators = 0;
+   operands = 0;
+
+   for (i=0; i<strlen(str); i++) {
+      if (isLowerCaseLetter(str[i])) {
+         operands++;
+      }
+      if (isAllowedOperator(str[i])) {
+         operators++;
+      }
+   }
+
+   /* operands-1 should equal operators */
+   if ((operands-1) == (operators))
+      status = OK;
+
+   return status;
+
+}
+
+
 /* check for valid characters in string per specification */
 /* pass string '(a+b)*c' or 'ab+' */
 /* inifixrules */

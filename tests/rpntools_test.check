@@ -35,7 +35,8 @@
    ck_assert_str_eq(RPNtoInfix("a+b"), "");
    ck_assert_int_eq(getError(ERR_UNBALANCED_EXPRESSION), TRUE);
 
-   ck_assert_str_eq(RPNtoInfix("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa+"), "");
+   ck_assert_str_eq(RPNtoInfix("a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a+a"), "");
+   ck_assert_int_eq(getErrors(), 1);
    ck_assert_int_eq(getError(ERR_STACK_OVERFLOW), TRUE);
 
    ck_assert_str_eq(RPNtoInfix("+ab"), "");

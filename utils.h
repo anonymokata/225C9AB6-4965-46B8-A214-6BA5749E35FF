@@ -17,9 +17,6 @@
 #define isOneChar(string)       (strlen(string)==1)
 #define isEmptyStr(string)      (strlen(string)==0)
 
-#define push(sp, n) (*((sp)++) = (n))
-#define pop(sp) (*--(sp))
-
 typedef enum {
    INFIX_RULES = 0,
    RPN_RULES,
@@ -31,5 +28,6 @@ int isAllowedOperator(char letter);
 int checkMatchingParenthesis(const char *str);
 int checkValidChars(const char *str, validation_t validation_rule);
 void setStackWithString(char stack[][SMBUFFER], int startpos, char * string);
+int checkOperatorBalance(const char *str);
 
 #endif /* utils_h_included */
