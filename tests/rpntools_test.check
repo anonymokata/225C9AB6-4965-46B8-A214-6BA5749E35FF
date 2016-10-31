@@ -78,3 +78,9 @@
    ck_assert_str_eq(InfixtoRPN("l/m^n*o-p"), "lmn^/o*p-");
    ck_assert_str_eq(InfixtoRPN("((l/(m^n))*o)-p"), "lmn^/o*p-");
    ck_assert_str_eq(InfixtoRPN("((v/w)^x)*(y-z)"), "vw/x^yz-*");
+
+   /* test cases from http://www.spoj.com/problems/ONP/ (link provided by pillar) */
+   ck_assert_str_eq(InfixtoRPN("3"), "");
+   ck_assert_str_eq(InfixtoRPN("(a+(b*c))"), "abc*+");
+   ck_assert_str_eq(InfixtoRPN("((a+b)*(z+x))"), "ab+zx+*");
+   ck_assert_str_eq(InfixtoRPN("((a+t)*((b+(a+c))^(c+d)))"), "at+bac++cd+^*");
