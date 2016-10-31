@@ -26,6 +26,7 @@ How to build:
 
 Assumptions
    * Operators will only consist of the following:  ^/*-+
+   * negation operator is not considered (!!)
    * Operands will only consist of lower case letters.
    * Parenthesis are allowed (and expected) when the user provides infix notation.
    * All other characters (including spaces) are unexpected, and therefore not allowed.

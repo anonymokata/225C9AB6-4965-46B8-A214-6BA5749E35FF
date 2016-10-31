@@ -68,10 +68,13 @@
 #test InfixtoRPN_test
    ck_assert_str_eq(InfixtoRPN("(a+b)*(c+d)"), "ab+cd+*");
    ck_assert_str_eq(InfixtoRPN("a+b*c^f"), "abcf^*+");
-
    ck_assert_str_eq(InfixtoRPN("((a+(b*c*d(c-d))))"), "");
    ck_assert_int_eq(getError(ERR_UNBALANCED_EXPRESSION), TRUE);
 
-
-
-
+   /* test cases from pillar examples */
+   ck_assert_str_eq(InfixtoRPN("a+b-c"), "abc-+");
+   ck_assert_str_eq(InfixtoRPN("(a+b)-c"), "ab+c-");
+   ck_assert_str_eq(InfixtoRPN("a+b-c"), "abc-+");
+   ck_assert_str_eq(InfixtoRPN("l/m^n*o-p"), "lmn^/o*p-");
+   ck_assert_str_eq(InfixtoRPN("((l/(m^n))*o)-p"), "lmn^/o*p-");
+   ck_assert_str_eq(InfixtoRPN("((v/w)^x)*(y-z)"), "vw/x^yz-*");
