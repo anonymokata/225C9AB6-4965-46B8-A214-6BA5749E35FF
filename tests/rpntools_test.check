@@ -88,6 +88,10 @@
    ck_assert_str_eq(InfixtoRPN("(+a+bb)"), "");
    ck_assert_int_eq(getError(ERR_UNBALANCED_EXPRESSION), TRUE);
 
+   ck_assert_str_eq(InfixtoRPN("(bb+)"), "");
+   ck_assert_int_eq(getError(ERR_UNBALANCED_EXPRESSION), TRUE);
+
+
 
    /* test cases from pillar examples */
    ck_assert_str_eq(InfixtoRPN("a+b-c"), "abc-+");

@@ -131,11 +131,13 @@ const char* getRPN(char array[][SMBUFFER], int arraylen)
                right+=1;
             }
 
-            /* if there is an operator on the left or the right, something is wrong, we are done */
+            /* if there is a single char on the left or right, and it is an operator or not a letter, we are done */
             /* if left position is <= 0, we are done */
-            if (     ( strlen(array[left])==1 && isAllowedOperator(array[left][0]) )
-                  || ( strlen(array[right])==1 && isAllowedOperator(array[right][0]) ) 
-                  || ( left < 0)  
+            /* if right position is > len, we are done */
+            if (     ( strlen(array[left])==1 && ( isAllowedOperator(array[left][0]) || !isLowerCaseLetter(array[left][0]) ) )
+                  || ( strlen(array[right])==1 && ( isAllowedOperator(array[right][0]) || !isLowerCaseLetter(array[right][0]) ) )
+                  || ( left < 0 )
+                  || ( right > arraylen )
                ) 
             {
                setError(ERR_UNBALANCED_EXPRESSION);
