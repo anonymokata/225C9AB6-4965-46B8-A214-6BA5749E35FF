@@ -58,11 +58,17 @@
    int pos=0;
    char stack[STACKSIZE][SMBUFFER];
 
+   resetErrors();
    setStackWithString(stack, 0, "a+b*c");
    ck_assert_str_eq(getRPN(stack, 5), "abc*+");
 
+   resetErrors();
    setStackWithString(stack, 0, "a+b*c*d*e^f+b");
    ck_assert_str_eq(getRPN(stack, 13), "abc*d*ef^*+b+");  
+
+   resetErrors();
+   setStackWithString(stack, 0, "+a+bb");
+   ck_assert_str_eq(getRPN(stack, 5), "");  
 
 
 #test InfixtoRPN_test
@@ -70,6 +76,16 @@
    ck_assert_str_eq(InfixtoRPN("a+b*c^f"), "abcf^*+");
    ck_assert_str_eq(InfixtoRPN("((a+(b*c*d(c-d))))"), "");
    ck_assert_int_eq(getError(ERR_UNBALANCED_EXPRESSION), TRUE);
+
+   ck_assert_str_eq(InfixtoRPN("(a)"), "");
+   ck_assert_int_eq(getError(ERR_UNBALANCED_EXPRESSION), TRUE);
+
+   ck_assert_str_eq(InfixtoRPN("(++abb)"), "");
+   ck_assert_int_eq(getError(ERR_UNBALANCED_EXPRESSION), TRUE);
+
+   ck_assert_str_eq(InfixtoRPN("(+a+bb)"), "");
+   ck_assert_int_eq(getError(ERR_UNBALANCED_EXPRESSION), TRUE);
+
 
    /* test cases from pillar examples */
    ck_assert_str_eq(InfixtoRPN("a+b-c"), "abc-+");

@@ -76,7 +76,8 @@ int checkOperatorBalance(const char *str)
    }
 
    /* operands-1 should equal operators */
-   if ((operands-1) == (operators))
+   /* if 0 operators there is nothing to do */
+   if (((operands-1) == (operators)) && (operators != 0))
       status = OK;
 
    return status;

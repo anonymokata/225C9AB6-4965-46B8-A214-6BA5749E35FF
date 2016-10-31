@@ -45,7 +45,7 @@ const char* RPNtoInfix(const char *string)
    checkSanity(string, RPN_RULES);  /* check sanity of input string */
 
    /* if the string is larger than stacksize, or if the string would overflow
-    * the stack given the starpos, set error and return immediately */
+    * the stack given the startpos, set error and return immediately */
    if (strlen(string) > STACKSIZE) {
       setError(ERR_STRING_TOO_LONG);
    }
@@ -103,6 +103,8 @@ const char* getRPN(char array[][SMBUFFER], int arraylen)
    static char result[SMBUFFER];  /* will hold the final result */ 
    i=0, left=0, right=0, lastop=0;
 
+   strcpy(result, "");  /* init with empty */
+
    if (arraylen == 0)  /* nothing to do? */
       return "";
 
@@ -129,6 +131,17 @@ const char* getRPN(char array[][SMBUFFER], int arraylen)
                right+=1;
             }
 
+            /* if there is an operator on the left or the right, something is wrong, we are done */
+            /* if left position is <= 0, we are done */
+            if (     ( strlen(array[left])==1 && isAllowedOperator(array[left][0]) )
+                  || ( strlen(array[right])==1 && isAllowedOperator(array[right][0]) ) 
+                  || ( left < 0)  
+               ) 
+            {
+               setError(ERR_UNBALANCED_EXPRESSION);
+               break;
+            }
+
             /* create RPN notation */
             sprintf(array[i], "%s%s%c", array[left], array[right], op);
 
@@ -143,7 +156,8 @@ const char* getRPN(char array[][SMBUFFER], int arraylen)
    }
 
    /* copy result into static storage */
-   strcpy(result, array[lastop]);
+   if (!getErrors()) 
+      strcpy(result, array[lastop]);
 
    return result;
 }
@@ -191,7 +205,8 @@ const char* InfixtoRPN(const char *string)
       /* found two parenthesis */
       if ((left != -1) && (right != -1)) {
          strcpy(equation, getRPN(&stack[left+1], right-left));
-         if (strlen(equation) == 0) {
+
+         if (getErrors() || strlen(equation) == 0) {
             break;
          }
 
@@ -213,6 +228,11 @@ const char* InfixtoRPN(const char *string)
          break;
       }
    }
+
+   /* if there are any errors, we are done right now */
+   if (getErrors()) {
+      return "";  /* return empty string on error */
+   } 
 
    /* we are done, somewhere in the stack is our string */
    for (i=0; i<strlen(string); i++) {
