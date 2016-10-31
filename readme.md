@@ -1,3 +1,5 @@
+--- For best results view as raw text (in github click "raw") ---
+
 API description:
 
    From rpntools.h:
